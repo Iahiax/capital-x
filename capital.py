@@ -7,7 +7,7 @@ import time
 # ============================
 
 EMAIL = "yahia.x@outlook.sa"
-API_KEY = "ut2RpxSbx6fiDdHv"
+API_KEY = "auIjjpVOvfy1KTix"
 API_KEY_PASSWORD = "Yahia@1411"
 
 # الوضع الحالي: DEMO أو REAL
