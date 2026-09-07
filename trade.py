@@ -5,9 +5,17 @@ import logging
 EMAIL = "yahia.x@outlook.sa"
 API_KEY = "ut2RpxSbx6fiDdHv"
 API_KEY_PASSWORD = "Yahia@1411"
-DEMO = True
 
-SERVER = "https://demo-api-capital.backend-capital.com" if DEMO else "https://api-capital.backend-capital.com"
+# الوضع الافتراضي
+current_mode = "DEMO"
+
+def get_server():
+    if current_mode == "DEMO":
+        return "https://demo-api-capital.backend-capital.com"
+    else:
+        return "https://api-capital.backend-capital.com"
+
+SERVER = get_server()
 
 headers = {
     "X-CAP-API-KEY": API_KEY,
@@ -16,6 +24,15 @@ headers = {
 
 CST = None
 XST = None
+
+
+def switch_mode(mode):
+    global current_mode, SERVER, CST, XST
+    current_mode = mode
+    SERVER = get_server()
+    CST = None
+    XST = None
+    logging.info(f"Switched mode to: {current_mode}")
 
 
 def login():
@@ -39,7 +56,7 @@ def login():
         CST = r.headers.get("CST")
         XST = r.headers.get("X-SECURITY-TOKEN")
 
-        logging.info("Capital.com login successful")
+        logging.info(f"Capital.com login successful ({current_mode})")
         return True
 
     except Exception as e:
@@ -77,7 +94,7 @@ def execute_trade(action, epic):
         r = requests.post(url, headers=headers2, data=json.dumps(payload))
 
         if r.status_code == 200:
-            logging.info(f"Trade executed: {action} - {epic}")
+            logging.info(f"Trade executed: {action} - {epic} ({current_mode})")
         else:
             logging.error(f"Trade failed: {r.text}")
 
