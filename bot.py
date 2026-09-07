@@ -6,6 +6,13 @@ app = Flask(__name__)
 
 DEFAULT_EPIC = "CS.D.EURUSD.MINI"
 
+# مسار فحص حالة البوت
+@app.route('/status', methods=['GET'])
+def status():
+    return "البوت يعمل بشكل طبيعي ✔", 200
+
+
+# مسار TradingView Webhook
 @app.route('/webhook', methods=['POST'])
 def webhook():
     try:
@@ -31,6 +38,7 @@ def webhook():
         return "Error", 500
 
 
+# مسار Telegram Bot
 @app.route('/<token>', methods=['POST'])
 def telegram(token):
     try:
