@@ -1,0 +1,34 @@
+name: Cloudflare Tunnel
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 */6 * * *"   # تشغيل كل 6 ساعات
+
+jobs:
+  tunnel:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Install cloudflared
+        run: |
+          sudo apt update
+          sudo apt install cloudflared -y
+
+      - name: Create cloudflared directory
+        run: mkdir -p ~/.cloudflared
+
+      - name: Add Cloudflare Tunnel credentials
+        run: |
+          echo "${{ secrets.CLOUDFLARE_TUNNEL_JSON }}" > ~/.cloudflared/tunnel.json
+
+      - name: Add Cloudflare Tunnel config
+        run: |
+          echo "${{ secrets.CLOUDFLARE_TUNNEL_CONFIG }}" > ~/.cloudflared/config.yml
+
+      - name: Run Cloudflare Tunnel
+        run: |
+          cloudflared tunnel run tradingbot
