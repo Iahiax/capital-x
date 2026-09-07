@@ -1,0 +1,56 @@
+from flask import Flask, request
+import logging
+from trade import execute_trade
+
+app = Flask(__name__)
+
+DEFAULT_EPIC = "CS.D.EURUSD.MINI"
+
+@app.route('/webhook', methods=['POST'])
+def webhook():
+    try:
+        data = request.json
+        if not data:
+            logging.error("Webhook received empty data")
+            return "No data", 400
+
+        action = data.get("action")
+        epic = data.get("epic", DEFAULT_EPIC)
+
+        if action not in ["buy", "sell"]:
+            logging.error(f"Invalid action: {action}")
+            return "Invalid action", 400
+
+        logging.info(f"Webhook signal: {action} - {epic}")
+        execute_trade(action, epic)
+
+        return "OK", 200
+
+    except Exception as e:
+        logging.error(f"Webhook error: {e}")
+        return "Error", 500
+
+
+@app.route('/<token>', methods=['POST'])
+def telegram(token):
+    try:
+        update = request.json
+        message = update.get("message", {})
+        text = message.get("text", "")
+
+        logging.info(f"Telegram message: {text}")
+
+        if text == "/buy":
+            execute_trade("buy", DEFAULT_EPIC)
+
+        elif text == "/sell":
+            execute_trade("sell", DEFAULT_EPIC)
+
+        elif text == "/balance":
+            logging.info("Balance command received")
+
+        return "OK", 200
+
+    except Exception as e:
+        logging.error(f"Telegram error: {e}")
+        return "Error", 500
