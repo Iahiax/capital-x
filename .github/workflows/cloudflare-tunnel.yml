@@ -1,4 +1,4 @@
-name: Cloudflare Tunnel
+name: Bot + Cloudflare Tunnel
 
 on:
   workflow_dispatch:
@@ -6,29 +6,39 @@ on:
     - cron: "0 */6 * * *"   # تشغيل كل 6 ساعات
 
 jobs:
-  tunnel:
+  run-bot:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
 
+      - name: Install Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+
       - name: Install cloudflared
         run: |
-          sudo apt update
-          sudo apt install cloudflared -y
+          curl -L https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64 -o cloudflared
+          chmod +x cloudflared
+          sudo mv cloudflared /usr/local/bin/
 
       - name: Create cloudflared directory
         run: mkdir -p ~/.cloudflared
 
-      - name: Add Cloudflare Tunnel credentials
-        run: |
-          echo "${{ secrets.CLOUDFLARE_TUNNEL_JSON }}" > ~/.cloudflared/tunnel.json
+      - name: Add Tunnel JSON
+        run: echo "${{ secrets.CLOUDFLARE_TUNNEL_JSON }}" > ~/.cloudflared/44dac3e9-2dce-4327-b02c-f03bf346613e.json
 
-      - name: Add Cloudflare Tunnel config
-        run: |
-          echo "${{ secrets.CLOUDFLARE_TUNNEL_CONFIG }}" > ~/.cloudflared/config.yml
+      - name: Add Tunnel config
+        run: echo "${{ secrets.CLOUDFLARE_TUNNEL_CONFIG }}" > ~/.cloudflared/config.yml
 
-      - name: Run Cloudflare Tunnel
-        run: |
-          cloudflared tunnel run tradingbot
+      - name: Start Cloudflare Tunnel
+        run: cloudflared tunnel run 44dac3e9-2dce-4327-b02c-f03bf346613e &
+
+      - name: Start Flask Bot
+        run: python bot.py
