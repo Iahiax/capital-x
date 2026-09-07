@@ -1,0 +1,42 @@
+2026-09-07 09:16:38,463 - INFO - Starting Flask server...
+2026-09-07 09:16:38,472 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8000
+ * Running on http://10.0.15.52:8000
+2026-09-07 09:16:38,473 - INFO - [33mPress CTRL+C to quit[0m
+2026-09-07 09:19:28,050 - INFO - Starting Flask server...
+2026-09-07 09:19:28,055 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8000
+ * Running on http://10.0.15.52:8000
+2026-09-07 09:19:28,055 - INFO - [33mPress CTRL+C to quit[0m
+2026-09-07 09:23:56,567 - INFO - Starting Flask server...
+2026-09-07 09:23:56,569 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8000
+ * Running on http://10.0.15.52:8000
+2026-09-07 09:23:56,569 - INFO - [33mPress CTRL+C to quit[0m
+2026-09-07 09:24:01,937 - INFO - Starting Flask server...
+2026-09-07 09:24:01,938 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8000
+ * Running on http://10.0.15.52:8000
+2026-09-07 09:24:01,938 - INFO - [33mPress CTRL+C to quit[0m
+2026-09-07 09:24:42,550 - INFO - Starting Flask server...
+2026-09-07 09:24:42,555 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8000
+ * Running on http://10.0.15.52:8000
+2026-09-07 09:24:42,556 - INFO - [33mPress CTRL+C to quit[0m
+2026-09-07 09:25:10,666 - INFO - Starting Flask server...
+2026-09-07 09:25:10,671 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8000
+ * Running on http://10.0.15.52:8000
+2026-09-07 09:25:10,671 - INFO - [33mPress CTRL+C to quit[0m
+2026-09-07 09:36:03,065 - INFO - Starting Flask server...
+2026-09-07 09:36:03,070 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8000
+ * Running on http://10.0.15.52:8000
+2026-09-07 09:36:03,071 - INFO - [33mPress CTRL+C to quit[0m
