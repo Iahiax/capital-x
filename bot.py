@@ -1,6 +1,6 @@
 from flask import Flask, request
 import logging
-from trade import execute_trade
+from trade import execute_trade, switch_mode, current_mode
 
 app = Flask(__name__)
 
@@ -40,14 +40,28 @@ def telegram(token):
 
         logging.info(f"Telegram message: {text}")
 
+        # أوامر التداول
         if text == "/buy":
             execute_trade("buy", DEFAULT_EPIC)
 
         elif text == "/sell":
             execute_trade("sell", DEFAULT_EPIC)
 
-        elif text == "/balance":
-            logging.info("Balance command received")
+        # أوامر تبديل الحساب
+        elif text == "/demo":
+            switch_mode("DEMO")
+            return "تم التحويل إلى الحساب التجريبي DEMO", 200
+
+        elif text == "/real":
+            switch_mode("REAL")
+            return "تم التحويل إلى الحساب الحقيقي REAL", 200
+
+        elif text == "/mode":
+            return f"الوضع الحالي: {current_mode}", 200
+
+        # حالة البوت
+        elif text == "/status":
+            return "البوت يعمل بشكل طبيعي ✔", 200
 
         return "OK", 200
 
