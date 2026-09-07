@@ -12,31 +12,37 @@ def status():
     return "البوت يعمل بشكل طبيعي ✔", 200
 
 
-# مسار تشغيل البوت عبر Webhook (زر تشغيل خارجي)
+# مسار تشغيل البوت عبر Webhook (زر تشغيل خارجي + ربط أحداث GitHub)
 @app.route('/trigger', methods=['POST'])
 def trigger():
     data = request.json or {}
-    action = data.get("action")
+    event = request.headers.get("X-GitHub-Event")  # نوع الحدث القادم من GitHub
 
-    logging.info(f"Trigger received: {data}")
+    logging.info(f"GitHub Event: {event}")
+    logging.info(f"Payload: {data}")
 
-    if action == "buy":
+    # حدث Push → تنفيذ شراء
+    if event == "push":
         execute_trade("buy", DEFAULT_EPIC)
-        return "Buy executed", 200
+        return "Push → Buy executed", 200
 
-    if action == "sell":
+    # حدث Issue → تنفيذ بيع
+    if event == "issues":
         execute_trade("sell", DEFAULT_EPIC)
-        return "Sell executed", 200
+        return "Issue → Sell executed", 200
 
-    if action == "demo":
-        switch_mode("DEMO")
-        return "Switched to DEMO", 200
-
-    if action == "real":
+    # حدث Release → التحويل إلى REAL
+    if event == "release":
         switch_mode("REAL")
-        return "Switched to REAL", 200
+        return "Release → Switched to REAL", 200
 
-    return "Unknown action", 400
+    # حدث Create Tag → التحويل إلى DEMO
+    if event == "create":
+        if data.get("ref_type") == "tag":
+            switch_mode("DEMO")
+            return "Tag → Switched to DEMO", 200
+
+    return "Event received but no action mapped", 200
 
 
 # مسار TradingView Webhook
