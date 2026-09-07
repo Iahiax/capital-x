@@ -12,6 +12,33 @@ def status():
     return "البوت يعمل بشكل طبيعي ✔", 200
 
 
+# مسار تشغيل البوت عبر Webhook (زر تشغيل خارجي)
+@app.route('/trigger', methods=['POST'])
+def trigger():
+    data = request.json or {}
+    action = data.get("action")
+
+    logging.info(f"Trigger received: {data}")
+
+    if action == "buy":
+        execute_trade("buy", DEFAULT_EPIC)
+        return "Buy executed", 200
+
+    if action == "sell":
+        execute_trade("sell", DEFAULT_EPIC)
+        return "Sell executed", 200
+
+    if action == "demo":
+        switch_mode("DEMO")
+        return "Switched to DEMO", 200
+
+    if action == "real":
+        switch_mode("REAL")
+        return "Switched to REAL", 200
+
+    return "Unknown action", 400
+
+
 # مسار TradingView Webhook
 @app.route('/webhook', methods=['POST'])
 def webhook():
